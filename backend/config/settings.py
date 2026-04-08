@@ -46,14 +46,7 @@ INSTALLED_APPS = [
     # Third-party apps
     'rest_framework',
 
-    # Custom apps
-    'apps.accounts',
-    'apps.dashboard',
-    'apps.inventory',
-    'apps.menu',
-    'apps.costing',
-    'apps.analysis',
-    'apps.ocr',
+    # Custom apps (add here as we build them)
 ]
 
 MIDDLEWARE = [
