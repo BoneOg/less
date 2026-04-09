@@ -1,7 +1,10 @@
-import Login from './pages/Login'
+import AppRoutes from './routes/AppRoutes'
+import { AuthProvider } from './features/authentication/context/AuthContext'
 
-function App() {
-  return <Login />
+export default function App() {
+  return (
+    <AuthProvider>
+      <AppRoutes />
+    </AuthProvider>
+  )
 }
-
-export default App
