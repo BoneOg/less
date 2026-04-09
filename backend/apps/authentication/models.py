@@ -34,7 +34,6 @@ class CustomUserManager(BaseUserManager):
         return self.create_user(email, password, **extra_fields)
 
 class User(AbstractUser):
-    # Remove the username field entirely
     username = None
     email = models.EmailField(_('email address'), unique=True)
     first_name = models.CharField(max_length=150, blank=True)
@@ -46,9 +45,6 @@ class User(AbstractUser):
         ('staff', 'Staff'),
     )
     role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='owner')
-    
-    # We will need to tie this user to a restaurant in the future,
-    # but for now, they are just independent users.
     
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []

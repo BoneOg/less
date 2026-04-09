@@ -8,7 +8,6 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
     def get_token(cls, user):
         token = super().get_token(user)
-        # Add custom claims
         token['email'] = user.email
         token['first_name'] = user.first_name
         token['last_name'] = user.last_name
@@ -26,6 +25,6 @@ class UserSerializer(serializers.ModelSerializer):
             password=validated_data['password'],
             first_name=validated_data.get('first_name', ''),
             last_name=validated_data.get('last_name', ''),
-            role=validated_data.get('role', 'owner') # default to owner if not specified
+            role=validated_data.get('role', 'owner')
         )
         return user

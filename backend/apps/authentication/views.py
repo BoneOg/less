@@ -8,7 +8,6 @@ from .serializers import UserSerializer, CustomTokenObtainPairSerializer
 User = get_user_model()
 
 class CustomTokenObtainPairView(TokenObtainPairView):
-    # Overriding the default JWT obtain view to use our custom serializer with extra claims
     serializer_class = CustomTokenObtainPairSerializer
 
 class RegisterView(generics.CreateAPIView):
