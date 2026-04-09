@@ -1,7 +1,5 @@
-import Login from './pages/Login'
+import AppRoutes from './routes/AppRoutes'
 
-function App() {
-  return <Login />
+export default function App() {
+  return <AppRoutes />
 }
-
-export default App
