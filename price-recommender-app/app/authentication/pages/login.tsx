@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
-import { useRouter } from 'expo-router';
+import { useRouter, Stack } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 
 export default function LoginScreen() {
@@ -17,8 +17,10 @@ export default function LoginScreen() {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.topSide}>
+    <>
+      <Stack.Screen options={{ headerShown: false }} />
+      <View style={styles.container}>
+        <View style={styles.topSide}>
         <Text style={styles.brandText}>LESS</Text>
       </View>
       <View style={styles.bottomSide}>
@@ -92,6 +94,7 @@ export default function LoginScreen() {
         </ScrollView>
       </View>
     </View>
+    </>
   );
 }
 
