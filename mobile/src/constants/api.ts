@@ -1,7 +1,6 @@
-const BASE_URL = 'http://192.168.1.52:8000'; // Updated to your machine's current local IP
-
+export const API_BASE_URL = 'http://192.168.1.52:8000/api';
 export const AUTH_ENDPOINTS = {
-  LOGIN: `${BASE_URL}/api/auth/login/`,
-  REGISTER: `${BASE_URL}/api/auth/register/`,
-  ME: `${BASE_URL}/api/auth/me/`,
+  LOGIN: `${API_BASE_URL}/auth/login/`,
+  REGISTER: `${API_BASE_URL}/auth/register/`,
+  ME: `${API_BASE_URL}/auth/me/`,
 };

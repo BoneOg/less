@@ -28,6 +28,7 @@ export const authService = {
         data = await response.json();
       } else {
         const text = await response.text();
+        console.error('Non-JSON response received:', text);
         throw new Error(`Server returned non-JSON response: ${response.status}`);
       }
 
@@ -37,6 +38,7 @@ export const authService = {
 
       return data; // Should contain access and refresh tokens
     } catch (error: any) {
+      console.error('Login Error:', error);
       throw error;
     }
   },
@@ -63,6 +65,7 @@ export const authService = {
         data = await response.json();
       } else {
         const text = await response.text();
+        console.error('Non-JSON response received during registration:', text);
         throw new Error(`Server returned non-JSON response: ${response.status}`);
       }
 
@@ -72,6 +75,7 @@ export const authService = {
 
       return data;
     } catch (error: any) {
+      console.error('Registration Error:', error);
       throw error;
     }
   },
@@ -94,6 +98,7 @@ export const authService = {
 
       return data;
     } catch (error: any) {
+      console.error('Profile Error:', error);
       throw error;
     }
   },
