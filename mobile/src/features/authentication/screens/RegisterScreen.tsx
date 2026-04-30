@@ -23,7 +23,7 @@ export default function RegisterScreen() {
       return;
     }
     alert('Registration successful! You can now log in.');
-    router.replace('/authentication/pages/login');
+    router.replace('/(auth)/login');
   };
 
   return (
@@ -126,7 +126,7 @@ export default function RegisterScreen() {
 
             <View style={styles.registerContainer}>
               <Text style={styles.registerText}>Already have an account? </Text>
-              <TouchableOpacity onPress={() => router.replace('/authentication/pages/login')}>
+              <TouchableOpacity onPress={() => router.replace('/(auth)/login')}>
                 <Text style={styles.registerLink}>Sign In</Text>
               </TouchableOpacity>
             </View>
