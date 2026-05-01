@@ -6,7 +6,7 @@ class CustomUserAdmin(UserAdmin):
     model = User
     list_display = ['email', 'first_name', 'last_name', 'is_staff']
     ordering = ['email']
-    # Removing 'username' from fieldsets since we deleted it
+
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
         ('Personal info', {'fields': ('first_name', 'last_name')}),
@@ -20,5 +20,5 @@ class CustomUserAdmin(UserAdmin):
         }),
     )
     search_fields = ['email', 'first_name', 'last_name']
-    
+
 admin.site.register(User, CustomUserAdmin)
