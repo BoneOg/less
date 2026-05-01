@@ -5,6 +5,19 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 User = get_user_model()
 
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+    def validate(self, attrs):
+        email = attrs.get('email')
+        password = attrs.get('password')
+        
+        user = User.objects.filter(email=email).first()
+        if not user:
+            raise serializers.ValidationError({"detail": "Account not found"})
+        
+        if not user.check_password(password):
+            raise serializers.ValidationError({"detail": "Wrong password"})
+            
+        return super().validate(attrs)
+
     @classmethod
     def get_token(cls, user):
         token = super().get_token(user)

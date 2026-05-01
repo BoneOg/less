@@ -1,38 +1,58 @@
 import { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Alert, ActivityIndicator } from 'react-native';
 import { useRouter, Stack } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
+import { authService } from '../../../services/authService';
 
 export default function RegisterScreen() {
   const router = useRouter();
-  const [form, setForm] = useState({ 
-    first_name: '', 
-    last_name: '', 
-    email: '', 
+  const [form, setForm] = useState({
+    first_name: '',
+    last_name: '',
+    email: '',
     password: '',
-    confirm_password: '' 
+    confirm_password: '',
   });
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (name: string, value: string) => {
     setForm({ ...form, [name]: value });
   };
 
-  const handleSubmit = () => {
-    if (form.password !== form.confirm_password) {
-      alert('Passwords do not match!');
+  const handleSubmit = async () => {
+    if (!form.email || !form.password || !form.first_name || !form.last_name) {
+      Alert.alert('Error', 'Please fill in all fields');
       return;
     }
-    alert('Registration successful! You can now log in.');
-    router.replace('/(auth)/login');
+
+    if (form.password !== form.confirm_password) {
+      Alert.alert('Error', 'Passwords do not match');
+      return;
+    }
+
+    setLoading(true);
+    try {
+      await authService.register(form);
+      Alert.alert('Success', 'Account created successfully! Please sign in.', [
+        { text: 'OK', onPress: () => router.replace('/login') }
+      ]);
+    } catch (error: any) {
+      Alert.alert('Registration Failed', error.message || 'Something went wrong.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <>
       <Stack.Screen options={{ headerShown: false }} />
       <View style={styles.container}>
+        {/* Top Side */}
         <View style={styles.topSide}>
           <Text style={styles.brandText}>LESS</Text>
         </View>
+
+        {/* Bottom Side */}
         <View style={styles.bottomSide}>
           <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
             <View style={styles.header}>
@@ -58,8 +78,8 @@ export default function RegisterScreen() {
             </View>
 
             <View style={styles.formContainer}>
-              <View style={styles.rowContainer}>
-                <View style={[styles.inputGroup, { flex: 1 }]}>
+              <View style={styles.row}>
+                <View style={[styles.inputGroup, { flex: 1, marginRight: 8 }]}>
                   <Text style={styles.label}>First Name</Text>
                   <TextInput 
                     style={styles.input}
@@ -69,7 +89,7 @@ export default function RegisterScreen() {
                     onChangeText={(text) => handleChange('first_name', text)}
                   />
                 </View>
-                <View style={[styles.inputGroup, { flex: 1 }]}>
+                <View style={[styles.inputGroup, { flex: 1, marginLeft: 8 }]}>
                   <Text style={styles.label}>Last Name</Text>
                   <TextInput 
                     style={styles.input}
@@ -104,7 +124,6 @@ export default function RegisterScreen() {
                   onChangeText={(text) => handleChange('password', text)}
                   secureTextEntry
                 />
-                <Text style={styles.hintText}>Must be at least 8 characters.</Text>
               </View>
 
               <View style={styles.inputGroup}>
@@ -119,15 +138,23 @@ export default function RegisterScreen() {
                 />
               </View>
 
-              <TouchableOpacity style={[styles.signInButton, { marginTop: 8 }]} onPress={handleSubmit}>
-                <Text style={styles.signInButtonText}>Create Account</Text>
+              <TouchableOpacity 
+                style={[styles.signUpButton, loading && styles.disabledButton]} 
+                onPress={handleSubmit}
+                disabled={loading}
+              >
+                {loading ? (
+                  <ActivityIndicator color="#FFFFFF" />
+                ) : (
+                  <Text style={styles.signUpButtonText}>Create Account</Text>
+                )}
               </TouchableOpacity>
             </View>
 
-            <View style={styles.registerContainer}>
-              <Text style={styles.registerText}>Already have an account? </Text>
-              <TouchableOpacity onPress={() => router.replace('/(auth)/login')}>
-                <Text style={styles.registerLink}>Sign In</Text>
+            <View style={styles.loginContainer}>
+              <Text style={styles.loginText}>Already have an account? </Text>
+              <TouchableOpacity onPress={() => router.replace('/login')}>
+                <Text style={styles.loginLink}>Sign In</Text>
               </TouchableOpacity>
             </View>
           </ScrollView>
@@ -143,7 +170,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#264027',
   },
   topSide: {
-    flex: 0.3, // Slightly reduced to give form more scroll space compared to login
+    flex: 0.25,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -154,19 +181,19 @@ const styles = StyleSheet.create({
     letterSpacing: 4,
   },
   bottomSide: {
-    flex: 0.7,
+    flex: 0.75,
     backgroundColor: '#FFFFFF',
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
     paddingHorizontal: 30,
-    paddingTop: 40,
+    paddingTop: 30,
   },
   scrollContent: {
     paddingBottom: 40,
   },
   header: {
     alignItems: 'center',
-    marginBottom: 24,
+    marginBottom: 20,
   },
   title: {
     fontSize: 26,
@@ -183,7 +210,7 @@ const styles = StyleSheet.create({
   oauthContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 24,
+    marginBottom: 20,
     gap: 12,
   },
   oauthButton: {
@@ -207,7 +234,7 @@ const styles = StyleSheet.create({
   separatorContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 24,
+    marginBottom: 20,
   },
   separatorLine: {
     flex: 1,
@@ -221,11 +248,10 @@ const styles = StyleSheet.create({
     color: '#9CA3AF',
   },
   formContainer: {
-    marginBottom: 24,
+    marginBottom: 20,
   },
-  rowContainer: {
+  row: {
     flexDirection: 'row',
-    gap: 12,
   },
   inputGroup: {
     marginBottom: 16,
@@ -241,35 +267,35 @@ const styles = StyleSheet.create({
     borderColor: '#E5E7EB',
     borderRadius: 12,
     paddingHorizontal: 16,
-    paddingVertical: 14,
+    paddingVertical: 12,
     fontSize: 14,
     color: '#111827',
   },
-  hintText: {
-    fontSize: 12,
-    color: '#9CA3AF',
-    marginTop: 6,
-  },
-  signInButton: {
+  signUpButton: {
     backgroundColor: '#264027',
     paddingVertical: 16,
     borderRadius: 12,
     alignItems: 'center',
+    marginTop: 8,
   },
-  signInButtonText: {
+  disabledButton: {
+    opacity: 0.7,
+  },
+  signUpButtonText: {
     color: '#FFFFFF',
     fontSize: 15,
     fontWeight: 'bold',
   },
-  registerContainer: {
+  loginContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
+    marginTop: 10,
   },
-  registerText: {
+  loginText: {
     fontSize: 14,
     color: '#9CA3AF',
   },
-  registerLink: {
+  loginLink: {
     fontSize: 14,
     fontWeight: 'bold',
     color: '#264027',
