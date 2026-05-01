@@ -35,7 +35,7 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen flex relative">
-      {/* ── ACCOUNT NOT FOUND MODAL ── */}
+      {}
       {showErrorModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-6 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-300">
           <div className="bg-white w-full max-w-md rounded-[2.5rem] p-10 shadow-2xl animate-in zoom-in-95 duration-300">
@@ -47,13 +47,13 @@ export default function LoginPage() {
               We couldn't find an account with that email address. Would you like to create a new one instead?
             </p>
             <div className="grid grid-cols-2 gap-4">
-              <button 
+              <button
                 onClick={() => setShowErrorModal(false)}
                 className="py-4 px-6 bg-slate-50 text-slate-600 font-bold rounded-2xl hover:bg-slate-100 transition-all active:scale-95"
               >
                 Try Again
               </button>
-              <button 
+              <button
                 onClick={() => navigate('/register')}
                 className="py-4 px-6 bg-[#264027] text-white font-bold rounded-2xl hover:opacity-90 shadow-lg shadow-emerald-900/20 transition-all active:scale-95"
               >
@@ -95,7 +95,7 @@ export default function LoginPage() {
               id="email"
               name="email"
               type="email"
-              placeholder="eg. owner@restaurant.com"
+              placeholder="eg. user@restaurant.com"
               value={form.email}
               onChange={handleChange}
             />

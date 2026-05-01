@@ -44,8 +44,8 @@ export default function LoginScreen() {
   return (
     <>
       <Stack.Screen options={{ headerShown: false }} />
-      
-      {/* ── ACCOUNT NOT FOUND MODAL ── */}
+
+      {}
       <Modal
         visible={errorModalVisible}
         transparent={true}
@@ -61,16 +61,16 @@ export default function LoginScreen() {
             <Text style={styles.modalSub}>
               We couldn't find an account with that email. Would you like to create a new one instead?
             </Text>
-            
+
             <View style={styles.modalActions}>
-              <TouchableOpacity 
-                style={styles.cancelBtn} 
+              <TouchableOpacity
+                style={styles.cancelBtn}
                 onPress={() => setErrorModalVisible(false)}
               >
                 <Text style={styles.cancelBtnText}>Try Again</Text>
               </TouchableOpacity>
-              <TouchableOpacity 
-                style={styles.registerBtn} 
+              <TouchableOpacity
+                style={styles.registerBtn}
                 onPress={() => {
                   setErrorModalVisible(false);
                   router.replace('/(auth)/register');
@@ -84,12 +84,12 @@ export default function LoginScreen() {
       </Modal>
 
       <View style={styles.container}>
-        {/* Top Side - Green background with brand */}
+        {}
         <View style={styles.topSide}>
           <Text style={styles.brandText}>LESS</Text>
         </View>
 
-        {/* Bottom Side - White background with form */}
+        {}
         <View style={styles.bottomSide}>
           <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
             <View style={styles.header}>
@@ -97,7 +97,7 @@ export default function LoginScreen() {
               <Text style={styles.subtitle}>Enter your credentials to access your account.</Text>
             </View>
 
-            {/* OAuth Buttons */}
+            {}
             <View style={styles.oauthContainer}>
               <TouchableOpacity style={styles.oauthButton}>
                 <Ionicons name="logo-google" size={18} color="#EA4335" style={styles.oauthIcon} />
@@ -118,9 +118,9 @@ export default function LoginScreen() {
             <View style={styles.formContainer}>
               <View style={styles.inputGroup}>
                 <Text style={styles.label}>Email</Text>
-                <TextInput 
+                <TextInput
                   style={styles.input}
-                  placeholder="eg. owner@restaurant.com"
+                  placeholder="eg. user@restaurant.com"
                   placeholderTextColor="#9CA3AF"
                   value={form.email}
                   onChangeText={(text) => handleChange('email', text)}
@@ -131,7 +131,7 @@ export default function LoginScreen() {
 
               <View style={styles.inputGroup}>
                 <Text style={styles.label}>Password</Text>
-                <TextInput 
+                <TextInput
                   style={styles.input}
                   placeholder="Enter your password"
                   placeholderTextColor="#9CA3AF"
@@ -146,8 +146,8 @@ export default function LoginScreen() {
                 <Text style={styles.forgotPassword}>Forgot password?</Text>
               </TouchableOpacity>
 
-              <TouchableOpacity 
-                style={[styles.signInButton, loading && styles.disabledButton]} 
+              <TouchableOpacity
+                style={[styles.signInButton, loading && styles.disabledButton]}
                 onPress={handleSubmit}
                 disabled={loading}
               >
@@ -316,7 +316,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#264027',
   },
-  // Modal Styles
+
   modalOverlay: {
     flex: 1,
     backgroundColor: 'rgba(0, 0, 0, 0.5)',

@@ -4,7 +4,7 @@ import { Icon } from '@iconify/react'
 import { useAuth } from '../features/authentication/hooks/useAuth'
 
 import AdminDashboard from '../features/dashboard/pages/AdminDashboard'
-import OwnerDashboard from '../features/dashboard/pages/OwnerDashboard'
+import UserDashboard from '../features/dashboard/pages/UserDashboard'
 import StaffDashboard from '../features/dashboard/pages/StaffDashboard'
 
 export default function Dashboard() {
@@ -38,16 +38,16 @@ export default function Dashboard() {
 
     switch (user.role) {
       case 'admin': return <AdminDashboard user={user} />
-      case 'owner': return <OwnerDashboard user={user} />
+      case 'user': return <UserDashboard user={user} />
       case 'staff': return <StaffDashboard user={user} />
-      default: return <OwnerDashboard user={user} />
+      default: return <UserDashboard user={user} />
     }
   }
 
   return (
     <div className="flex h-screen bg-[#FDFDFD] font-sans text-slate-900 overflow-hidden relative">
-      
-      {/* ── LOGOUT MODAL ── */}
+
+      {}
       {isLogoutModalOpen && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
           <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-300"></div>
@@ -60,13 +60,13 @@ export default function Dashboard() {
               Are you sure you want to log out of your dashboard? All unsaved data might be lost.
             </p>
             <div className="flex gap-4">
-              <button 
+              <button
                 onClick={() => setLogoutModalOpen(false)}
                 className="flex-1 py-4 bg-slate-50 hover:bg-slate-100 text-slate-600 rounded-2xl font-black text-sm uppercase tracking-widest transition-colors border border-slate-100"
               >
                 Cancel
               </button>
-              <button 
+              <button
                 onClick={handleLogout}
                 className="flex-1 py-4 bg-red-500 hover:bg-red-600 text-white rounded-2xl font-black text-sm uppercase tracking-widest transition-all shadow-lg shadow-red-500/20 active:scale-95"
               >
@@ -77,15 +77,15 @@ export default function Dashboard() {
         </div>
       )}
 
-      {/* ── MOBILE OVERLAY ── */}
+      {}
       {isSidebarOpen && (
-        <div 
+        <div
           className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[60] lg:hidden animate-in fade-in duration-300"
           onClick={() => setSidebarOpen(false)}
         ></div>
       )}
 
-      {/* ── SIDEBAR ── */}
+      {}
       <aside className={`
         fixed inset-y-0 left-0 w-72 bg-[#1E293B] flex flex-col z-[70] shadow-2xl transition-transform duration-500 ease-in-out lg:relative lg:translate-x-0
         ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}
@@ -100,7 +100,7 @@ export default function Dashboard() {
               <p className="text-[10px] font-bold text-emerald-400 uppercase tracking-widest mt-1">Smart Costing</p>
             </div>
           </div>
-          <button 
+          <button
             className="lg:hidden text-slate-400 hover:text-white transition-colors"
             onClick={() => setSidebarOpen(false)}
           >
@@ -114,8 +114,8 @@ export default function Dashboard() {
               key={item.name}
               onClick={() => { setSidebarOpen(false); }}
               className={`w-full flex items-center gap-4 px-5 py-4 rounded-2xl transition-all duration-300 group relative ${
-                location.pathname === item.path 
-                ? 'bg-emerald-500 text-white shadow-xl shadow-emerald-500/20' 
+                location.pathname === item.path
+                ? 'bg-emerald-500 text-white shadow-xl shadow-emerald-500/20'
                 : 'text-slate-400 hover:text-white hover:bg-slate-800'
               }`}
             >
@@ -136,19 +136,19 @@ export default function Dashboard() {
               <Icon icon="solar:user-bold-duotone" className="text-emerald-500 text-xl" />
             </div>
             <div>
-              <p className="text-xs font-black text-white leading-none mb-1">{user?.first_name || 'Owner'}</p>
+              <p className="text-xs font-black text-white leading-none mb-1">{user?.first_name || 'User'}</p>
               <p className="text-[9px] font-bold text-slate-500 uppercase tracking-widest leading-none">{user?.role || 'Admin'}</p>
             </div>
           </div>
         </div>
       </aside>
 
-      {/* ── MAIN CONTENT ── */}
+      {}
       <div className="flex-1 flex flex-col relative h-full overflow-hidden">
-        {/* TOP BAR */}
+        {}
         <header className="h-20 lg:h-24 bg-white/70 backdrop-blur-xl border-b border-slate-100 px-6 lg:px-12 flex items-center justify-between sticky top-0 z-40">
           <div className="flex items-center gap-4 lg:gap-0">
-            <button 
+            <button
               className="lg:hidden w-10 h-10 flex items-center justify-center bg-slate-100 rounded-xl text-slate-600 active:scale-95 transition-all"
               onClick={() => setSidebarOpen(true)}
             >
@@ -156,9 +156,9 @@ export default function Dashboard() {
             </button>
             <div className="hidden sm:flex items-center gap-4 bg-slate-100/50 px-6 py-3 rounded-2xl border border-transparent transition-all focus-within:bg-white focus-within:border-emerald-200 focus-within:shadow-xl focus-within:shadow-emerald-500/5 ml-4 lg:ml-0">
               <Icon icon="solar:magnifer-linear" className="text-slate-400" />
-              <input 
-                type="text" 
-                placeholder="Search..." 
+              <input
+                type="text"
+                placeholder="Search..."
                 className="bg-transparent border-none outline-none text-sm font-semibold text-slate-700 placeholder:text-slate-400 w-40 lg:w-80"
               />
             </div>
@@ -171,7 +171,7 @@ export default function Dashboard() {
             </button>
 
             <div className="flex items-center gap-5 pl-4 border-l border-slate-100">
-              <button 
+              <button
                 onClick={() => setLogoutModalOpen(true)}
                 className="group w-10 h-10 lg:w-14 lg:h-14 bg-slate-50 border border-slate-100 rounded-xl lg:rounded-2xl flex items-center justify-center text-slate-400 hover:bg-red-50 hover:text-red-600 hover:border-red-100 transition-all active:scale-95"
               >
@@ -181,7 +181,7 @@ export default function Dashboard() {
           </div>
         </header>
 
-        {/* PAGE CONTENT */}
+        {}
         <main className="flex-1 overflow-y-auto p-6 lg:p-12 custom-scrollbar scroll-smooth bg-[#FDFDFD]">
           <div className="max-w-6xl mx-auto pb-10">
             {renderDashboard()}

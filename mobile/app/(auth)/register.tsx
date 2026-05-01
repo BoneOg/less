@@ -6,12 +6,12 @@ import { authService } from '@/services/authService';
 
 export default function RegisterScreen() {
   const router = useRouter();
-  const [form, setForm] = useState({ 
-    first_name: '', 
-    last_name: '', 
-    email: '', 
+  const [form, setForm] = useState({
+    first_name: '',
+    last_name: '',
+    email: '',
     password: '',
-    confirm_password: '' 
+    confirm_password: ''
   });
   const [loading, setLoading] = useState(false);
 
@@ -77,7 +77,7 @@ export default function RegisterScreen() {
               <View style={styles.rowContainer}>
                 <View style={[styles.inputGroup, { flex: 1 }]}>
                   <Text style={styles.label}>First Name</Text>
-                  <TextInput 
+                  <TextInput
                     style={styles.input}
                     placeholder="eg. John"
                     placeholderTextColor="#9CA3AF"
@@ -87,7 +87,7 @@ export default function RegisterScreen() {
                 </View>
                 <View style={[styles.inputGroup, { flex: 1 }]}>
                   <Text style={styles.label}>Last Name</Text>
-                  <TextInput 
+                  <TextInput
                     style={styles.input}
                     placeholder="eg. Santos"
                     placeholderTextColor="#9CA3AF"
@@ -99,9 +99,9 @@ export default function RegisterScreen() {
 
               <View style={styles.inputGroup}>
                 <Text style={styles.label}>Email</Text>
-                <TextInput 
+                <TextInput
                   style={styles.input}
-                  placeholder="eg. owner@restaurant.com"
+                  placeholder="eg. user@restaurant.com"
                   placeholderTextColor="#9CA3AF"
                   value={form.email}
                   onChangeText={(text) => handleChange('email', text)}
@@ -112,7 +112,7 @@ export default function RegisterScreen() {
 
               <View style={styles.inputGroup}>
                 <Text style={styles.label}>Password</Text>
-                <TextInput 
+                <TextInput
                   style={styles.input}
                   placeholder="Enter your password"
                   placeholderTextColor="#9CA3AF"
@@ -125,7 +125,7 @@ export default function RegisterScreen() {
 
               <View style={styles.inputGroup}>
                 <Text style={styles.label}>Confirm Password</Text>
-                <TextInput 
+                <TextInput
                   style={styles.input}
                   placeholder="Re-enter your password"
                   placeholderTextColor="#9CA3AF"
@@ -135,8 +135,8 @@ export default function RegisterScreen() {
                 />
               </View>
 
-              <TouchableOpacity 
-                style={[styles.signInButton, loading && styles.disabledButton, { marginTop: 8 }]} 
+              <TouchableOpacity
+                style={[styles.signInButton, loading && styles.disabledButton, { marginTop: 8 }]}
                 onPress={handleSubmit}
                 disabled={loading}
               >
@@ -167,7 +167,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#264027',
   },
   topSide: {
-    flex: 0.3, 
+    flex: 0.3,
     justifyContent: 'center',
     alignItems: 'center',
   },

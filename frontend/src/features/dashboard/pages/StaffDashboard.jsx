@@ -5,7 +5,7 @@ export default function StaffDashboard({ user }) {
       <p className="text-gray-500 mb-4">
         Track local inventory, punch records, or daily operational tasks.
       </p>
-      {/* Staff specific widgets will go here */}
+      {}
     </div>
   )
 }

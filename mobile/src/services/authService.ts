@@ -36,7 +36,7 @@ export const authService = {
         throw new Error(data.detail || 'Login failed');
       }
 
-      return data; // Should contain access and refresh tokens
+      return data;
     } catch (error: any) {
       console.error('Login Error:', error);
       throw error;
@@ -55,7 +55,7 @@ export const authService = {
           password: userData.password,
           first_name: userData.first_name,
           last_name: userData.last_name,
-          role: 'owner', // Default role as per serializer
+          role: 'user',
         }),
       });
 

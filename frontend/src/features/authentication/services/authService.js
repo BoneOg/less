@@ -1,8 +1,6 @@
 import api from '../../../api/axios'
 
-/**
- * All raw API calls related to Authentication
- */
+
 export const authService = {
   login: async (credentials) => {
     const response = await api.post('/auth/login/', credentials)

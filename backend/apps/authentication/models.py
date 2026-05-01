@@ -38,14 +38,14 @@ class User(AbstractUser):
     email = models.EmailField(_('email address'), unique=True)
     first_name = models.CharField(max_length=150, blank=True)
     last_name = models.CharField(max_length=150, blank=True)
-    
+
     ROLE_CHOICES = (
         ('admin', 'Admin'),
-        ('owner', 'Owner'),
+        ('user', 'User'),
         ('staff', 'Staff'),
     )
-    role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='owner')
-    
+    role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='user')
+
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 

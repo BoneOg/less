@@ -6,7 +6,7 @@ import { Ionicons } from '@expo/vector-icons';
 export default function DashboardScreen() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const [user, setUser] = useState({ first_name: 'Owner', role: 'owner' }); // Mock user for now
+  const [user, setUser] = useState({ first_name: 'User', role: 'user' });
 
   const handleLogout = () => {
     Alert.alert('Logout', 'Are you sure you want to logout?', [
@@ -18,8 +18,8 @@ export default function DashboardScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <Stack.Screen options={{ headerShown: false }} />
-      
-      {/* Header */}
+
+      {}
       <View style={styles.header}>
         <View style={styles.brandContainer}>
           <Ionicons name="stats-chart" size={24} color="#264027" />
@@ -32,7 +32,7 @@ export default function DashboardScreen() {
       </View>
 
       <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
-        {/* Welcome Section */}
+        {}
         <View style={styles.welcomeSection}>
           <Text style={styles.welcomeTitle}>Welcome, {user.first_name}</Text>
           <View style={styles.roleBadge}>
@@ -40,13 +40,13 @@ export default function DashboardScreen() {
           </View>
         </View>
 
-        {/* Dashboard Content */}
+        {}
         <View style={styles.card}>
-          <Text style={styles.cardTitle}>Restaurant Owner Workspace</Text>
+          <Text style={styles.cardTitle}>Restaurant User Workspace</Text>
           <Text style={styles.cardDescription}>
             Manage menus, staff permissions, and overarching financial costings here.
           </Text>
-          
+
           <View style={styles.statsGrid}>
             <View style={styles.statItem}>
               <Text style={styles.statLabel}>Active Menus</Text>
@@ -59,7 +59,7 @@ export default function DashboardScreen() {
           </View>
         </View>
 
-        {/* Quick Actions */}
+        {}
         <Text style={styles.sectionTitle}>Quick Actions</Text>
         <View style={styles.actionsGrid}>
           <TouchableOpacity style={styles.actionButton}>

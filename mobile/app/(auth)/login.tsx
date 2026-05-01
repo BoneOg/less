@@ -22,7 +22,7 @@ export default function LoginScreen() {
     setLoading(true);
     try {
       const data = await authService.login(form);
-      // In a real app, you'd save the token to SecureStore
+
       console.log('Login success:', data);
       router.replace('/dashboard');
     } catch (error: any) {
@@ -66,9 +66,9 @@ export default function LoginScreen() {
           <View style={styles.formContainer}>
             <View style={styles.inputGroup}>
               <Text style={styles.label}>Email</Text>
-              <TextInput 
+              <TextInput
                 style={styles.input}
-                placeholder="eg. owner@restaurant.com"
+                placeholder="eg. user@restaurant.com"
                 placeholderTextColor="#9CA3AF"
                 value={form.email}
                 onChangeText={(text) => handleChange('email', text)}
@@ -79,7 +79,7 @@ export default function LoginScreen() {
 
             <View style={styles.inputGroup}>
               <Text style={styles.label}>Password</Text>
-              <TextInput 
+              <TextInput
                 style={styles.input}
                 placeholder="Enter your password"
                 placeholderTextColor="#9CA3AF"
@@ -96,8 +96,8 @@ export default function LoginScreen() {
               </TouchableOpacity>
             </View>
 
-            <TouchableOpacity 
-              style={[styles.signInButton, loading && styles.disabledButton]} 
+            <TouchableOpacity
+              style={[styles.signInButton, loading && styles.disabledButton]}
               onPress={handleSubmit}
               disabled={loading}
             >

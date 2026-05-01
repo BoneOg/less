@@ -47,12 +47,12 @@ export default function RegisterScreen() {
     <>
       <Stack.Screen options={{ headerShown: false }} />
       <View style={styles.container}>
-        {/* Top Side */}
+        {}
         <View style={styles.topSide}>
           <Text style={styles.brandText}>LESS</Text>
         </View>
 
-        {/* Bottom Side */}
+        {}
         <View style={styles.bottomSide}>
           <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
             <View style={styles.header}>
@@ -81,7 +81,7 @@ export default function RegisterScreen() {
               <View style={styles.row}>
                 <View style={[styles.inputGroup, { flex: 1, marginRight: 8 }]}>
                   <Text style={styles.label}>First Name</Text>
-                  <TextInput 
+                  <TextInput
                     style={styles.input}
                     placeholder="eg. John"
                     placeholderTextColor="#9CA3AF"
@@ -91,7 +91,7 @@ export default function RegisterScreen() {
                 </View>
                 <View style={[styles.inputGroup, { flex: 1, marginLeft: 8 }]}>
                   <Text style={styles.label}>Last Name</Text>
-                  <TextInput 
+                  <TextInput
                     style={styles.input}
                     placeholder="eg. Santos"
                     placeholderTextColor="#9CA3AF"
@@ -103,9 +103,9 @@ export default function RegisterScreen() {
 
               <View style={styles.inputGroup}>
                 <Text style={styles.label}>Email</Text>
-                <TextInput 
+                <TextInput
                   style={styles.input}
-                  placeholder="eg. owner@restaurant.com"
+                  placeholder="eg. user@restaurant.com"
                   placeholderTextColor="#9CA3AF"
                   value={form.email}
                   onChangeText={(text) => handleChange('email', text)}
@@ -116,7 +116,7 @@ export default function RegisterScreen() {
 
               <View style={styles.inputGroup}>
                 <Text style={styles.label}>Password</Text>
-                <TextInput 
+                <TextInput
                   style={styles.input}
                   placeholder="Enter your password"
                   placeholderTextColor="#9CA3AF"
@@ -128,7 +128,7 @@ export default function RegisterScreen() {
 
               <View style={styles.inputGroup}>
                 <Text style={styles.label}>Confirm Password</Text>
-                <TextInput 
+                <TextInput
                   style={styles.input}
                   placeholder="Re-enter your password"
                   placeholderTextColor="#9CA3AF"
@@ -138,8 +138,8 @@ export default function RegisterScreen() {
                 />
               </View>
 
-              <TouchableOpacity 
-                style={[styles.signUpButton, loading && styles.disabledButton]} 
+              <TouchableOpacity
+                style={[styles.signUpButton, loading && styles.disabledButton]}
                 onPress={handleSubmit}
                 disabled={loading}
               >

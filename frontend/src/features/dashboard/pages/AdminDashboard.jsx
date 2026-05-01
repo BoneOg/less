@@ -5,7 +5,7 @@ export default function AdminDashboard({ user }) {
       <p className="text-gray-500 mb-4">
         System overview, server health, and all technical components.
       </p>
-      {/* Admin specific widgets will go here */}
+      {}
     </div>
   )
 }

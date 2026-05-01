@@ -7,8 +7,8 @@ export default function MainLayout() {
     <Tabs
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: '#10B981', // Emerald
-        tabBarInactiveTintColor: '#94A3B8', // Slate 400
+        tabBarActiveTintColor: '#10B981',
+        tabBarInactiveTintColor: '#94A3B8',
         tabBarStyle: {
           backgroundColor: '#FFFFFF',
           borderTopWidth: 1,
@@ -54,7 +54,7 @@ export default function MainLayout() {
         options={{
           title: 'Scanner',
           tabBarIcon: ({ color, focused }) => (
-            <View style={{ 
+            <View style={{
               backgroundColor: focused ? '#10B981' : '#1E293B',
               width: 54,
               height: 54,
@@ -95,7 +95,7 @@ export default function MainLayout() {
         }}
       />
 
-      {/* Hidden Screens */}
+      {}
       <Tabs.Screen name="settings" options={{ href: null }} />
     </Tabs>
   );

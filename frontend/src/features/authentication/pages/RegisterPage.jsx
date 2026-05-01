@@ -26,7 +26,7 @@ export default function RegisterPage() {
       alert('Passwords do not match!')
       return
     }
-    
+
     try {
       await register(form)
       alert("Registration successful! You can now log in.")
@@ -90,7 +90,7 @@ export default function RegisterPage() {
               id="email"
               name="email"
               type="email"
-              placeholder="eg. owner@restaurant.com"
+              placeholder="eg. user@restaurant.com"
               value={form.email}
               onChange={handleChange}
             />
