@@ -11,9 +11,9 @@ export default function OAuthButton({ provider, icon, onClick }: OAuthButtonProp
     <button
       type="button"
       onClick={onClick}
-      className="flex-1 flex items-center justify-center gap-2.5 py-3 rounded-xl border border-gray-200 bg-white hover:bg-gray-50 text-[#1a2e35] text-sm font-semibold transition-colors duration-200"
+      className="flex-1 flex items-center justify-center gap-3 py-3.5 rounded-xl border border-outline-variant bg-surface hover:bg-surface-container-low text-on-surface-variant text-[11px] font-black uppercase tracking-widest transition-all duration-300"
     >
-      <Icon icon={icon} className="text-xl" />
+      <Icon icon={icon} className="text-lg" />
       {provider}
     </button>
   )
