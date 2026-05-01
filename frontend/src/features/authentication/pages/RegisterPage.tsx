@@ -1,0 +1,142 @@
+import { useState, ChangeEvent, FormEvent } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../hooks/useAuth'
+import InputField from '../components/InputField'
+import PasswordField from '../components/PasswordField'
+import OAuthButton from '../components/OAuthButton'
+
+export default function RegisterPage() {
+  const navigate = useNavigate()
+  const { register } = useAuth()
+  const [form, setForm] = useState({
+    first_name: '',
+    last_name: '',
+    email: '',
+    password: '',
+    confirm_password: '',
+  })
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setForm({ ...form, [e.target.name]: e.target.value })
+  }
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault()
+    if (form.password !== form.confirm_password) {
+      alert('Passwords do not match!')
+      return
+    }
+
+    try {
+      await register(form)
+      alert("Registration successful! You can now log in.")
+      navigate('/login')
+    } catch (err: any) {
+      alert(err.response?.data?.email?.[0] || 'Registration failed. Please check your details.')
+      console.error(err)
+    }
+  }
+
+  return (
+    <div className="min-h-screen flex">
+      {/* Left Decoration Section */}
+      <div className="flex w-1/2 items-center justify-center bg-[#264027]">
+        <div className="flex flex-col items-center gap-6 animate-in fade-in zoom-in duration-1000">
+          <img src="/images/logo.png" alt="less. logo" className="w-32 h-32 brightness-0 invert" />
+          <h1 className="text-7xl font-bold text-white tracking-[0.2em]">less.</h1>
+        </div>
+      </div>
+
+      {/* Register Form Section */}
+      <div className="flex-1 flex flex-col items-center justify-center bg-white px-10 py-12">
+        <div className="w-full max-w-sm">
+          <div className="text-center mb-7">
+            <h2 className="text-3xl font-bold text-[#1a2e35]">Create Account</h2>
+            <p className="text-sm text-gray-400 mt-2 leading-relaxed">
+              Enter your details to get started.
+            </p>
+          </div>
+
+          <div className="flex gap-3 mb-6">
+            <OAuthButton provider="Google" icon="logos:google-icon" onClick={() => {}} />
+            <OAuthButton provider="Microsoft" icon="logos:microsoft-icon" onClick={() => {}} />
+          </div>
+
+          <div className="flex items-center gap-3 mb-6">
+            <div className="flex-1 h-px bg-gray-200" />
+            <span className="text-xs text-gray-400 font-medium">or</span>
+            <div className="flex-1 h-px bg-gray-200" />
+          </div>
+
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="flex gap-3">
+              <InputField
+                label="First Name"
+                id="first_name"
+                name="first_name"
+                placeholder="eg. John"
+                value={form.first_name}
+                onChange={handleChange}
+              />
+              <InputField
+                label="Last Name"
+                id="last_name"
+                name="last_name"
+                placeholder="eg. Santos"
+                value={form.last_name}
+                onChange={handleChange}
+              />
+            </div>
+
+            <InputField
+              label="Email"
+              id="email"
+              name="email"
+              type="email"
+              placeholder="eg. user@restaurant.com"
+              value={form.email}
+              onChange={handleChange}
+            />
+
+            <PasswordField
+              label="Password"
+              id="password"
+              name="password"
+              placeholder="Enter your password"
+              value={form.password}
+              onChange={handleChange}
+              hint="Must be at least 8 characters."
+            />
+
+            <PasswordField
+              label="Confirm Password"
+              id="confirm_password"
+              name="confirm_password"
+              placeholder="Re-enter your password"
+              value={form.confirm_password}
+              onChange={handleChange}
+            />
+
+            <button
+              type="submit"
+              className="w-full py-3.5 bg-[#264027] hover:bg-[#1e3020] text-white font-bold text-sm rounded-xl transition-colors duration-200 mt-2"
+            >
+              Create Account
+            </button>
+          </form>
+
+          <p className="text-center text-sm text-gray-400 mt-6">
+            Already have an account?{' '}
+            <button
+              type="button"
+              onClick={() => navigate('/login')}
+              className="text-[#264027] font-bold hover:underline"
+            >
+              Sign In
+            </button>
+          </p>
+        </div>
+      </div>
+    </div>
+  )
+}
