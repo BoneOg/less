@@ -41,7 +41,7 @@ export default function MainLayout() {
         }}
       />
       <Tabs.Screen
-        name="inventory"
+        name="inventory/index"
         options={{
           title: 'Inventory',
           tabBarIcon: ({ color, focused }) => (
@@ -50,7 +50,16 @@ export default function MainLayout() {
         }}
       />
       <Tabs.Screen
-        name="ocr"
+        name="menu/index"
+        options={{
+          title: 'Menu',
+          tabBarIcon: ({ color, focused }) => (
+            <Ionicons name={focused ? 'restaurant' : 'restaurant-outline'} size={24} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="ocr/index"
         options={{
           title: 'Scanner',
           tabBarIcon: ({ color, focused }) => (
@@ -77,16 +86,7 @@ export default function MainLayout() {
         }}
       />
       <Tabs.Screen
-        name="menu"
-        options={{
-          title: 'Menu',
-          tabBarIcon: ({ color, focused }) => (
-            <Ionicons name={focused ? 'restaurant' : 'restaurant-outline'} size={24} color={color} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="analysis"
+        name="analysis/index"
         options={{
           title: 'Analysis',
           tabBarIcon: ({ color, focused }) => (
@@ -94,9 +94,24 @@ export default function MainLayout() {
           ),
         }}
       />
-
-      {}
-      <Tabs.Screen name="settings" options={{ href: null }} />
+      <Tabs.Screen
+        name="costing/index"
+        options={{
+          title: 'Costing',
+          tabBarIcon: ({ color, focused }) => (
+            <Ionicons name={focused ? 'cash' : 'cash-outline'} size={24} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="settings/index"
+        options={{
+          title: 'Settings',
+          tabBarIcon: ({ color, focused }) => (
+            <Ionicons name={focused ? 'settings' : 'settings-outline'} size={24} color={color} />
+          ),
+        }}
+      />
     </Tabs>
   );
 }

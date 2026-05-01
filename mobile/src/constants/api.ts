@@ -1,4 +1,4 @@
-const API_BASE_URL = process.env.EXPO_PUBLIC_API_BASE_URL || 'http:
+const API_BASE_URL = process.env.EXPO_PUBLIC_API_BASE_URL || 'http://[IP_ADDRESS]';
 
 export const AUTH_ENDPOINTS = {
   LOGIN: `${API_BASE_URL}/auth/login/`,

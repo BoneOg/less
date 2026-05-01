@@ -1,6 +1,6 @@
 
 
-import { Colors } from '@/constants/theme';
+import { Colors } from '@/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 
 export function useThemeColor(
