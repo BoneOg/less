@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from .models import Ingredient, MenuItem
 
 User = get_user_model()
 
@@ -41,3 +42,26 @@ class UserSerializer(serializers.ModelSerializer):
             role=validated_data.get('role', 'user')
         )
         return user
+
+
+class IngredientSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Ingredient
+        fields = (
+            'id', 'name', 'category', 'unit',
+            'cost_per_unit', 'stock_quantity',
+            'supplier', 'is_active',
+            'created_at', 'updated_at',
+        )
+        read_only_fields = ('id', 'created_at', 'updated_at')
+
+
+class MenuItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MenuItem
+        fields = (
+            'id', 'name', 'description',
+            'selling_price', 'target_margin_percent',
+            'is_active', 'created_at', 'updated_at',
+        )
+        read_only_fields = ('id', 'created_at', 'updated_at')
