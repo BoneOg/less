@@ -44,13 +44,13 @@ export default function LoginScreen() {
       }
       router.replace('/(main)/dashboard');
     } catch (error: any) {
-      const msg = error.message || '';
-      if (msg.includes('Account not found')) {
+      const msg = (error?.message || '').toLowerCase();
+      if (msg.includes('account not found')) {
         setErrorModalVisible(true);
-      } else if (msg.includes('Wrong password')) {
+      } else if (msg.includes('wrong password')) {
         Alert.alert('Login Failed', 'The password you entered is incorrect. Please try again.');
       } else {
-        Alert.alert('Invalid credentials', msg || 'Check your credentials and try again.');
+        Alert.alert('Invalid credentials', error?.message || 'Check your credentials and try again.');
       }
     } finally {
       setLoading(false);

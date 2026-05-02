@@ -1,5 +1,27 @@
 import { AUTH_ENDPOINTS } from '@/constants/api';
 
+/** DRF often returns `detail` as a string or a list of strings. */
+function messageFromApiBody(data: unknown): string {
+  if (!data || typeof data !== 'object') return 'Login failed';
+  const d = data as Record<string, unknown>;
+  const detail = d.detail;
+  if (typeof detail === 'string') return detail;
+  if (Array.isArray(detail) && detail.length > 0) {
+    const first = detail[0];
+    return typeof first === 'string' ? first : String(first);
+  }
+  const nfe = d.non_field_errors;
+  if (Array.isArray(nfe) && nfe.length > 0) {
+    const first = nfe[0];
+    return typeof first === 'string' ? first : String(first);
+  }
+  return 'Login failed';
+}
+
+function isExpectedLoginFailure(message: string): boolean {
+  return /account not found/i.test(message) || /wrong password/i.test(message);
+}
+
 export interface UserData {
   email: string;
   password?: string;
@@ -33,12 +55,15 @@ export const authService = {
       }
 
       if (!response.ok) {
-        throw new Error(data.detail || 'Login failed');
+        throw new Error(messageFromApiBody(data));
       }
 
       return data;
-    } catch (error: any) {
-      console.error('Login Error:', error);
+    } catch (error: unknown) {
+      const msg = error instanceof Error ? error.message : String(error);
+      if (!isExpectedLoginFailure(msg)) {
+        console.error('Login Error:', error);
+      }
       throw error;
     }
   },
