@@ -1,12 +1,27 @@
 import { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Alert, ActivityIndicator, Modal } from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+  ScrollView,
+  Alert,
+  ActivityIndicator,
+  Modal,
+  KeyboardAvoidingView,
+  Platform,
+} from 'react-native';
 import { useRouter, Stack } from 'expo-router';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { authService } from '../services/authService';
 import * as SecureStore from 'expo-secure-store';
+import { Brand } from '@/theme/brandColors';
 
 export default function LoginScreen() {
   const router = useRouter();
+  const insets = useSafeAreaInsets();
   const [form, setForm] = useState({ email: '', password: '' });
   const [loading, setLoading] = useState(false);
   const [errorModalVisible, setErrorModalVisible] = useState(false);
@@ -29,12 +44,13 @@ export default function LoginScreen() {
       }
       router.replace('/(main)/dashboard');
     } catch (error: any) {
-      if (error.message && error.message.includes('Account not found')) {
+      const msg = error.message || '';
+      if (msg.includes('Account not found')) {
         setErrorModalVisible(true);
-      } else if (error.message && error.message.includes('Wrong password')) {
+      } else if (msg.includes('Wrong password')) {
         Alert.alert('Login Failed', 'The password you entered is incorrect. Please try again.');
       } else {
-        Alert.alert('Login Failed', error.message || 'Check your credentials and try again.');
+        Alert.alert('Invalid credentials', msg || 'Check your credentials and try again.');
       }
     } finally {
       setLoading(false);
@@ -45,35 +61,30 @@ export default function LoginScreen() {
     <>
       <Stack.Screen options={{ headerShown: false }} />
 
-      {}
       <Modal
         visible={errorModalVisible}
-        transparent={true}
+        transparent
         animationType="fade"
         onRequestClose={() => setErrorModalVisible(false)}
       >
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
             <View style={styles.modalIconBg}>
-              <Ionicons name="person-add-outline" size={32} color="#264027" />
+              <Ionicons name="person-add" size={32} color={Brand.onPrimaryContainer} />
             </View>
             <Text style={styles.modalTitle}>Account Not Found</Text>
             <Text style={styles.modalSub}>
-              We couldn't find an account with that email. Would you like to create a new one instead?
+              {`We couldn't find an account with that email address. Would you like to create a new one instead?`}
             </Text>
-
             <View style={styles.modalActions}>
-              <TouchableOpacity
-                style={styles.cancelBtn}
-                onPress={() => setErrorModalVisible(false)}
-              >
+              <TouchableOpacity style={styles.cancelBtn} onPress={() => setErrorModalVisible(false)}>
                 <Text style={styles.cancelBtnText}>Try Again</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.registerBtn}
                 onPress={() => {
                   setErrorModalVisible(false);
-                  router.replace('/(auth)/register');
+                  router.push('/register');
                 }}
               >
                 <Text style={styles.registerBtnText}>Register Now</Text>
@@ -83,280 +94,334 @@ export default function LoginScreen() {
         </View>
       </Modal>
 
-      <View style={styles.container}>
-        {}
-        <View style={styles.topSide}>
-          <Text style={styles.brandText}>LESS</Text>
+      <KeyboardAvoidingView
+        style={[styles.flex, { paddingTop: insets.top }]}
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      >
+        <View style={styles.brandStrip}>
+          <Text style={styles.brandHuge}>
+            less<Text style={styles.brandDot}>.</Text>
+          </Text>
         </View>
 
-        {}
-        <View style={styles.bottomSide}>
-          <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
-            <View style={styles.header}>
-              <Text style={styles.title}>Sign in Account</Text>
-              <Text style={styles.subtitle}>Enter your credentials to access your account.</Text>
+        <View style={[styles.sheet, { paddingBottom: insets.bottom + 16 }]}>
+          <TouchableOpacity
+            onPress={() => router.replace('/')}
+            style={[styles.backBtn, { marginLeft: -4 }]}
+            hitSlop={12}
+          >
+            <Ionicons name="arrow-back" size={22} color={Brand.onSurfaceVariant} />
+          </TouchableOpacity>
+
+          <ScrollView
+            style={styles.scrollFlex}
+            keyboardShouldPersistTaps="handled"
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={styles.scrollContent}
+          >
+            <View style={styles.headingBlock}>
+              <Text style={styles.title}>Welcome back.</Text>
+              <Text style={styles.subtitle}>Simplify your workspace and find your focus.</Text>
             </View>
 
-            {}
-            <View style={styles.oauthContainer}>
-              <TouchableOpacity style={styles.oauthButton}>
-                <Ionicons name="logo-google" size={18} color="#EA4335" style={styles.oauthIcon} />
-                <Text style={styles.oauthText}>Google</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.oauthButton}>
-                <Ionicons name="logo-microsoft" size={18} color="#00A4EF" style={styles.oauthIcon} />
-                <Text style={styles.oauthText}>Microsoft</Text>
-              </TouchableOpacity>
-            </View>
+            <View style={styles.form}>
+              <Text style={styles.inputLabel}>Email address</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="Email address"
+                placeholderTextColor={`${Brand.onSurfaceVariant}88`}
+                value={form.email}
+                onChangeText={(t) => handleChange('email', t)}
+                autoCapitalize="none"
+                keyboardType="email-address"
+              />
 
-            <View style={styles.separatorContainer}>
-              <View style={styles.separatorLine} />
-              <Text style={styles.separatorText}>or</Text>
-              <View style={styles.separatorLine} />
-            </View>
-
-            <View style={styles.formContainer}>
-              <View style={styles.inputGroup}>
-                <Text style={styles.label}>Email</Text>
-                <TextInput
-                  style={styles.input}
-                  placeholder="eg. user@restaurant.com"
-                  placeholderTextColor="#9CA3AF"
-                  value={form.email}
-                  onChangeText={(text) => handleChange('email', text)}
-                  autoCapitalize="none"
-                  keyboardType="email-address"
-                />
-              </View>
-
-              <View style={styles.inputGroup}>
-                <Text style={styles.label}>Password</Text>
-                <TextInput
-                  style={styles.input}
-                  placeholder="Enter your password"
-                  placeholderTextColor="#9CA3AF"
-                  value={form.password}
-                  onChangeText={(text) => handleChange('password', text)}
-                  secureTextEntry
-                />
-                <Text style={styles.hintText}>Must be at least 8 characters.</Text>
-              </View>
-
-              <TouchableOpacity style={styles.forgotPasswordContainer}>
-                <Text style={styles.forgotPassword}>Forgot password?</Text>
+              <Text style={[styles.inputLabel, { marginTop: 20 }]}>Password</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="Password"
+                placeholderTextColor={`${Brand.onSurfaceVariant}88`}
+                value={form.password}
+                onChangeText={(t) => handleChange('password', t)}
+                secureTextEntry
+              />
+              <TouchableOpacity style={styles.forgotWrap} activeOpacity={0.7}>
+                <Text style={styles.forgotText}>Forgot Password?</Text>
               </TouchableOpacity>
 
               <TouchableOpacity
-                style={[styles.signInButton, loading && styles.disabledButton]}
+                style={[styles.loginBtn, loading && styles.loginBtnDisabled]}
                 onPress={handleSubmit}
                 disabled={loading}
+                activeOpacity={0.9}
               >
                 {loading ? (
-                  <ActivityIndicator color="#FFFFFF" />
+                  <ActivityIndicator color={Brand.onPrimary} />
                 ) : (
-                  <Text style={styles.signInButtonText}>Sign In</Text>
+                  <Text style={styles.loginBtnText}>Login</Text>
                 )}
               </TouchableOpacity>
             </View>
 
-            <View style={styles.registerContainer}>
-              <Text style={styles.registerText}>Don't have an account? </Text>
-              <TouchableOpacity onPress={() => router.replace('/(auth)/register')}>
-                <Text style={styles.registerLink}>Register</Text>
+            <View style={styles.oauthDividerRow}>
+              <View style={styles.oauthLine} />
+              <Text style={styles.oauthDividerLabel}>Sign in with</Text>
+              <View style={styles.oauthLine} />
+            </View>
+
+            <View style={styles.oauthRow}>
+              <TouchableOpacity style={styles.oauthBtn} activeOpacity={0.85}>
+                <Ionicons name="logo-google" size={20} color={Brand.onSurfaceVariant} />
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.oauthBtn} activeOpacity={0.85}>
+                <Ionicons name="logo-apple" size={22} color={Brand.onSurface} />
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.oauthBtn} activeOpacity={0.85}>
+                <Ionicons name="logo-microsoft" size={18} color={Brand.onSurfaceVariant} />
+              </TouchableOpacity>
+            </View>
+
+            <View style={styles.signUpRow}>
+              <Text style={styles.signUpMuted}>New to less? </Text>
+              <TouchableOpacity onPress={() => router.push('/register')} hitSlop={8}>
+                <Text style={styles.signUpLink}>Sign up</Text>
               </TouchableOpacity>
             </View>
           </ScrollView>
+
+          <View style={styles.footerLinks}>
+            <TouchableOpacity activeOpacity={0.7}>
+              <Text style={styles.footerLink}>privacy</Text>
+            </TouchableOpacity>
+            <TouchableOpacity activeOpacity={0.7}>
+              <Text style={styles.footerLink}>terms</Text>
+            </TouchableOpacity>
+            <TouchableOpacity activeOpacity={0.7}>
+              <Text style={styles.footerLink}>contact</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
+      </KeyboardAvoidingView>
     </>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  flex: {
     flex: 1,
-    backgroundColor: '#264027',
+    backgroundColor: Brand.background,
   },
-  topSide: {
-    flex: 0.35,
-    justifyContent: 'center',
-    alignItems: 'center',
+  brandStrip: {
+    paddingVertical: 20,
+    paddingHorizontal: 24,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: Brand.outlineVariant,
+    overflow: 'hidden',
   },
-  brandText: {
+  brandHuge: {
     fontSize: 56,
-    fontWeight: 'bold',
-    color: '#FFFFFF',
-    letterSpacing: 4,
+    fontWeight: '900',
+    color: Brand.primary,
+    letterSpacing: -4,
+    opacity: 0.85,
   },
-  bottomSide: {
-    flex: 0.65,
-    backgroundColor: '#FFFFFF',
-    borderTopLeftRadius: 30,
-    borderTopRightRadius: 30,
-    paddingHorizontal: 30,
-    paddingTop: 40,
+  brandDot: {
+    color: Brand.primaryContainer,
+  },
+  sheet: {
+    flex: 1,
+    backgroundColor: Brand.surface,
+    paddingHorizontal: 24,
+    paddingTop: 8,
+  },
+  scrollFlex: {
+    flex: 1,
+  },
+  backBtn: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 8,
   },
   scrollContent: {
-    paddingBottom: 40,
+    paddingBottom: 24,
   },
-  header: {
-    alignItems: 'center',
-    marginBottom: 28,
+  headingBlock: {
+    marginBottom: 32,
   },
   title: {
-    fontSize: 26,
-    fontWeight: 'bold',
-    color: '#1a2e35',
+    fontSize: 36,
+    fontWeight: '900',
+    color: Brand.onSurface,
+    letterSpacing: -0.5,
+    marginBottom: 12,
   },
   subtitle: {
-    fontSize: 14,
-    color: '#9CA3AF',
-    marginTop: 8,
-    textAlign: 'center',
-    lineHeight: 20,
-  },
-  oauthContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 24,
-    gap: 12,
-  },
-  oauthButton: {
-    flex: 1,
-    flexDirection: 'row',
-    paddingVertical: 12,
-    borderWidth: 1,
-    borderColor: '#E5E7EB',
-    borderRadius: 8,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  oauthIcon: {
-    marginRight: 8,
-  },
-  oauthText: {
-    fontSize: 14,
-    fontWeight: '500',
-    color: '#374151',
-  },
-  separatorContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 24,
-  },
-  separatorLine: {
-    flex: 1,
-    height: 1,
-    backgroundColor: '#E5E7EB',
-  },
-  separatorText: {
-    marginHorizontal: 12,
-    fontSize: 12,
-    fontWeight: '500',
-    color: '#9CA3AF',
-  },
-  formContainer: {
-    marginBottom: 24,
-  },
-  inputGroup: {
-    marginBottom: 20,
-  },
-  label: {
-    fontSize: 14,
+    fontSize: 15,
     fontWeight: '600',
-    color: '#374151',
+    color: Brand.onSurfaceVariant,
+  },
+  form: {
     marginBottom: 8,
+  },
+  inputLabel: {
+    fontSize: 12,
+    fontWeight: '700',
+    color: Brand.onSurfaceVariant,
+    marginBottom: 8,
+    marginLeft: 2,
   },
   input: {
     borderWidth: 1,
-    borderColor: '#E5E7EB',
-    borderRadius: 12,
-    paddingHorizontal: 16,
-    paddingVertical: 14,
-    fontSize: 14,
-    color: '#111827',
-  },
-  hintText: {
-    fontSize: 12,
-    color: '#9CA3AF',
-    marginTop: 6,
-  },
-  forgotPasswordContainer: {
-    alignItems: 'flex-end',
-    marginBottom: 24,
-  },
-  forgotPassword: {
-    fontSize: 12,
-    color: '#9CA3AF',
-  },
-  signInButton: {
-    backgroundColor: '#264027',
+    borderColor: Brand.outlineVariant,
+    backgroundColor: Brand.surfaceContainerLow,
+    borderRadius: 14,
+    paddingHorizontal: 20,
     paddingVertical: 16,
-    borderRadius: 12,
+    fontSize: 14,
+    color: Brand.onSurface,
+  },
+  forgotWrap: {
+    alignSelf: 'flex-end',
+    marginTop: 10,
+    marginBottom: 8,
+  },
+  forgotText: {
+    fontSize: 11,
+    fontWeight: '900',
+    color: Brand.onSurfaceVariant,
+    letterSpacing: 1.2,
+    textTransform: 'uppercase',
+  },
+  loginBtn: {
+    marginTop: 20,
+    backgroundColor: Brand.primary,
+    paddingVertical: 18,
+    borderRadius: 16,
     alignItems: 'center',
+    shadowColor: Brand.primary,
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.15,
+    shadowRadius: 16,
+    elevation: 4,
   },
-  disabledButton: {
-    opacity: 0.7,
+  loginBtnDisabled: {
+    opacity: 0.75,
   },
-  signInButtonText: {
-    color: '#FFFFFF',
-    fontSize: 15,
-    fontWeight: 'bold',
+  loginBtnText: {
+    color: Brand.onPrimary,
+    fontSize: 16,
+    fontWeight: '800',
   },
-  registerContainer: {
+  oauthDividerRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 28,
+    marginBottom: 20,
+  },
+  oauthLine: {
+    flex: 1,
+    height: StyleSheet.hairlineWidth,
+    backgroundColor: Brand.outlineVariant,
+  },
+  oauthDividerLabel: {
+    marginHorizontal: 12,
+    fontSize: 10,
+    fontWeight: '900',
+    color: Brand.onSurfaceVariant,
+    letterSpacing: 2,
+    textTransform: 'uppercase',
+  },
+  oauthRow: {
+    flexDirection: 'row',
+    gap: 12,
+  },
+  oauthBtn: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 14,
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: Brand.outlineVariant,
+    backgroundColor: Brand.surface,
+  },
+  signUpRow: {
     flexDirection: 'row',
     justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 36,
   },
-  registerText: {
+  signUpMuted: {
     fontSize: 14,
-    color: '#9CA3AF',
+    fontWeight: '600',
+    color: Brand.onSurfaceVariant,
   },
-  registerLink: {
+  signUpLink: {
     fontSize: 14,
-    fontWeight: 'bold',
-    color: '#264027',
+    fontWeight: '800',
+    color: Brand.primary,
   },
-
+  footerLinks: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    gap: 28,
+    paddingTop: 16,
+    marginTop: 'auto',
+    borderTopWidth: StyleSheet.hairlineWidth,
+    borderTopColor: `${Brand.outlineVariant}55`,
+  },
+  footerLink: {
+    fontSize: 10,
+    fontWeight: '900',
+    color: Brand.onSurfaceVariant,
+    letterSpacing: 2,
+    textTransform: 'uppercase',
+  },
   modalOverlay: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: 'rgba(15, 23, 42, 0.4)',
     justifyContent: 'center',
     alignItems: 'center',
     padding: 24,
   },
   modalContent: {
     width: '100%',
-    backgroundColor: '#FFFFFF',
-    borderRadius: 24,
+    maxWidth: 400,
+    backgroundColor: Brand.surface,
+    borderRadius: 28,
     padding: 32,
     alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 10 },
-    shadowOpacity: 0.1,
-    shadowRadius: 20,
-    elevation: 10,
+    borderWidth: 1,
+    borderColor: Brand.outlineVariant,
   },
   modalIconBg: {
-    width: 72,
-    height: 72,
+    width: 80,
+    height: 80,
     borderRadius: 24,
-    backgroundColor: '#F0F7F0',
-    justifyContent: 'center',
+    backgroundColor: Brand.primaryContainer,
     alignItems: 'center',
+    justifyContent: 'center',
     marginBottom: 24,
   },
   modalTitle: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#1a2e35',
+    fontSize: 22,
+    fontWeight: '900',
+    color: Brand.onSurface,
+    textAlign: 'center',
     marginBottom: 12,
+    letterSpacing: -0.3,
   },
   modalSub: {
     fontSize: 14,
-    color: '#9CA3AF',
+    fontWeight: '600',
+    color: Brand.onSurfaceVariant,
     textAlign: 'center',
     lineHeight: 22,
-    marginBottom: 32,
+    marginBottom: 28,
+    paddingHorizontal: 8,
   },
   modalActions: {
     flexDirection: 'row',
@@ -365,26 +430,30 @@ const styles = StyleSheet.create({
   },
   cancelBtn: {
     flex: 1,
-    paddingVertical: 14,
-    borderRadius: 12,
-    backgroundColor: '#F3F4F6',
+    paddingVertical: 16,
+    borderRadius: 16,
+    backgroundColor: Brand.surfaceContainerLow,
     alignItems: 'center',
   },
   cancelBtnText: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#6B7280',
+    fontSize: 11,
+    fontWeight: '900',
+    color: Brand.onSurfaceVariant,
+    letterSpacing: 1.5,
+    textTransform: 'uppercase',
   },
   registerBtn: {
     flex: 1,
-    paddingVertical: 14,
-    borderRadius: 12,
-    backgroundColor: '#264027',
+    paddingVertical: 16,
+    borderRadius: 16,
+    backgroundColor: Brand.primary,
     alignItems: 'center',
   },
   registerBtnText: {
-    fontSize: 14,
-    fontWeight: 'bold',
-    color: '#FFFFFF',
+    fontSize: 11,
+    fontWeight: '900',
+    color: Brand.onPrimary,
+    letterSpacing: 1.5,
+    textTransform: 'uppercase',
   },
 });
