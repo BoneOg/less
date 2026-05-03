@@ -17,25 +17,6 @@ export default function PasswordStrength({ password }: PasswordStrengthProps) {
 
   const strength = useMemo(() => calculateStrength(password), [password])
   
-  const hasUppercase = /[A-Z]/.test(password)
-  const hasNumber = /[0-9]/.test(password)
-  const hasSymbol = /[^A-Za-z0-9]/.test(password)
-  const hasLength = password.length >= 8
-
-  const getStrengthColor = (score: number) => {
-    if (score === 1) return 'bg-error'
-    if (score === 2) return 'bg-[#D4A373]'
-    if (score === 3) return 'bg-primary-container'
-    if (score === 4) return 'bg-primary'
-    return 'bg-outline-variant'
-  }
-
-  const requirements = [
-    { label: '8 Chars', met: hasLength },
-    { label: '1 Uppercase', met: hasUppercase },
-    { label: '1 Number', met: hasNumber },
-    { label: '1 Symbol', met: hasSymbol },
-  ]
 
   const getStrengthLabel = (score: number) => {
     if (score === 0) return ''

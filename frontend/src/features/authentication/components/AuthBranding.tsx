@@ -1,4 +1,3 @@
-import { ReactNode } from 'react'
 
 interface AuthBrandingProps {
   variant?: 'default' | 'minimal' | 'reset';
@@ -6,19 +5,19 @@ interface AuthBrandingProps {
   description?: string;
 }
 
-export default function AuthBranding({ 
-  variant = 'default', 
-  title = 'less.', 
-  description = 'Clarity in every interaction. Designed for the essential.' 
+export default function AuthBranding({
+  variant = 'default',
+  title = 'less.',
+  description = 'Clarity in every interaction. Designed for the essential.'
 }: AuthBrandingProps) {
-  
+
   if (variant === 'reset') {
     return (
       <>
         <div className="absolute inset-0 w-full h-full bg-[#70866A] flex items-center justify-center overflow-hidden transition-colors duration-1000">
           <div className="relative w-full h-full flex items-center justify-center p-20">
-             <div className="text-[320px] font-black text-white/5 leading-none tracking-tighter select-none absolute left-[-100px] top-1/2 -translate-y-1/2 rotate-[-5deg]">less.</div>
-             <div className="text-[320px] font-black text-white/5 leading-none tracking-tighter select-none absolute right-[-100px] top-1/3 -translate-y-1/2 rotate-[15deg]">less.</div>
+            <div className="text-[320px] font-black text-white/5 leading-none tracking-tighter select-none absolute left-[-100px] top-1/2 -translate-y-1/2 rotate-[-5deg]">less.</div>
+            <div className="text-[320px] font-black text-white/5 leading-none tracking-tighter select-none absolute right-[-100px] top-1/3 -translate-y-1/2 rotate-[15deg]">less.</div>
           </div>
         </div>
         <div className="relative z-10 flex flex-col justify-between w-full h-full p-16">
@@ -43,8 +42,8 @@ export default function AuthBranding({
       <>
         <div className="absolute inset-0 w-full h-full bg-[#E5E7E1]/30 flex items-center justify-center p-20 transition-colors duration-1000">
           <div className="bg-[#F2F1EC] w-full max-w-sm aspect-square rounded-[2rem] flex items-center justify-center shadow-inner relative overflow-hidden animate-in fade-in zoom-in duration-1000 delay-200">
-             <div className="text-[100px] font-black text-primary/20 leading-none tracking-tighter select-none">less.</div>
-             <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent"></div>
+            <div className="text-[100px] font-black text-primary/20 leading-none tracking-tighter select-none">less.</div>
+            <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent"></div>
           </div>
         </div>
         <div className="relative z-10 flex flex-col justify-between w-full h-full p-16">
