@@ -14,11 +14,14 @@ interface InputFieldProps {
 export default function InputField({ label, id, name, type = 'text', placeholder, value, onChange, hint }: InputFieldProps) {
   return (
     <div className="flex flex-col gap-2">
+      <label htmlFor={id} className="text-xs font-bold text-on-surface-variant ml-1">
+        {label}
+      </label>
       <input
         id={id}
         name={name}
         type={type}
-        placeholder={placeholder || label}
+        placeholder={placeholder}
         value={value}
         onChange={onChange}
         required
