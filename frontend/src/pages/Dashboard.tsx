@@ -40,7 +40,6 @@ export default function Dashboard() {
       case 'admin': return <AdminDashboard user={user} />
       case 'user': return <UserDashboard user={user} />
       case 'staff': return <StaffDashboard user={user} />
-      case 'owner': return <UserDashboard user={user} />
       default: return <UserDashboard user={user} />
     }
   }
