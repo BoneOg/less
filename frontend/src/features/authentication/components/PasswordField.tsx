@@ -16,12 +16,15 @@ export default function PasswordField({ label, id, name, placeholder, value, onC
 
   return (
     <div className="flex flex-col gap-2">
+      <label htmlFor={id} className="text-xs font-bold text-on-surface-variant ml-1">
+        {label}
+      </label>
       <div className="relative">
         <input
           id={id}
           name={name}
           type={show ? 'text' : 'password'}
-          placeholder={placeholder || label}
+          placeholder={placeholder}
           value={value}
           onChange={onChange}
           required
