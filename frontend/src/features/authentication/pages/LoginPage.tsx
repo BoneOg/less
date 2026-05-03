@@ -7,6 +7,8 @@ import OAuthButton from '../components/OAuthButton'
 import AuthLayout from '../components/AuthLayout'
 import AuthModal from '../components/AuthModal'
 
+import AuthBranding from '../components/AuthBranding'
+
 export default function LoginPage() {
   const navigate = useNavigate()
   const { login } = useAuth()
@@ -32,30 +34,9 @@ export default function LoginPage() {
     }
   }
 
-  const leftContent = (
-    <div className="flex flex-col justify-between h-full w-full p-16 bg-background relative overflow-hidden">
-      <div className="animate-in fade-in slide-in-from-left-8 duration-1000">
-        <div className="text-xl font-bold tracking-tighter text-on-surface">less.</div>
-      </div>
-
-      <div className="relative z-10 animate-in fade-in zoom-in duration-1000 delay-200">
-        <h1 className="text-[180px] font-black text-primary leading-none tracking-[-0.08em] opacity-80 mix-blend-multiply">
-          less<span className="text-primary-container">.</span>
-        </h1>
-      </div>
-
-      <div className="text-sm text-on-surface-variant opacity-60 font-medium animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-500">
-        @2026 less.
-      </div>
-
-      {/* Decorative elements */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-[radial-gradient(circle_at_center,rgba(139,168,136,0.08)_0%,transparent_70%)] pointer-events-none"></div>
-    </div>
-  )
-
   return (
     <AuthLayout 
-      leftContent={leftContent} 
+      leftContent={<AuthBranding />} 
       backTo="/"
       topRightContent={
         <button
@@ -110,7 +91,8 @@ export default function LoginPage() {
             <div className="flex justify-end">
               <button 
                 type="button"
-                className="text-[11px] font-black text-on-surface-variant uppercase tracking-widest hover:text-primary transition-colors"
+                onClick={() => navigate('/forgot-password')}
+                className="text-[11px] font-black text-on-surface-variant uppercase tracking-widest hover:text-primary hover:underline underline-offset-4 transition-all"
               >
                 Forgot Password?
               </button>

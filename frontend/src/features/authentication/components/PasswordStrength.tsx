@@ -37,35 +37,34 @@ export default function PasswordStrength({ password }: PasswordStrengthProps) {
     { label: '1 Symbol', met: hasSymbol },
   ]
 
+  const getStrengthLabel = (score: number) => {
+    if (score === 0) return ''
+    if (score === 1) return 'WEAK'
+    if (score === 2) return 'FAIR'
+    if (score === 3) return 'GOOD'
+    if (score === 4) return 'STRONG PASSWORD'
+    return ''
+  }
+
   return (
-    <div className="space-y-4 pt-2">
+    <div className="space-y-2">
       {/* Strength Bar */}
-      <div className="flex gap-1.5 h-1.5">
+      <div className="flex gap-2 h-[4px]">
         {[1, 2, 3, 4].map((step) => (
           <div 
             key={step}
             className={`flex-1 rounded-full transition-all duration-500 ${
-              strength >= step ? getStrengthColor(strength) : 'bg-outline-variant/30'
+              strength >= step ? 'bg-[#4A6549]' : 'bg-outline-variant/30'
             }`} 
           />
         ))}
       </div>
 
-      {/* Requirement Labels */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-y-3 gap-x-2 px-1">
-        {requirements.map((req) => (
-          <div key={req.label} className="flex items-center gap-1.5">
-            <span 
-              className={`material-symbols-outlined text-[14px] ${req.met ? 'text-primary' : 'text-on-surface-variant/40'}`}
-              style={{ fontVariationSettings: `'FILL' ${req.met ? 1 : 0}` }}
-            >
-              {req.met ? 'check_circle' : 'circle'}
-            </span>
-            <span className={`text-[10px] font-bold tracking-tight ${req.met ? 'text-on-surface' : 'text-on-surface-variant/50'}`}>
-              {req.label}
-            </span>
-          </div>
-        ))}
+      {/* Strength Label */}
+      <div className="px-1">
+        <p className={`text-[10px] font-black tracking-widest uppercase transition-colors duration-300 ${strength >= 3 ? 'text-[#4A6549]' : 'text-on-surface-variant/60'}`}>
+          {getStrengthLabel(strength)}
+        </p>
       </div>
     </div>
   )

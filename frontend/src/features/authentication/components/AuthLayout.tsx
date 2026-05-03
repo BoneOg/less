@@ -5,11 +5,20 @@ interface AuthLayoutProps {
   children: ReactNode;
   leftContent: ReactNode;
   backTo?: string;
+  onBack?: () => void;
   topRightContent?: ReactNode;
 }
 
-export default function AuthLayout({ children, leftContent, backTo = '/', topRightContent }: AuthLayoutProps) {
+export default function AuthLayout({ children, leftContent, backTo, onBack, topRightContent }: AuthLayoutProps) {
   const navigate = useNavigate()
+
+  const handleBack = () => {
+    if (onBack) {
+      onBack()
+    } else {
+      navigate(backTo || '/login')
+    }
+  }
 
   return (
     <div className="min-h-screen flex bg-surface overflow-hidden">
@@ -23,7 +32,7 @@ export default function AuthLayout({ children, leftContent, backTo = '/', topRig
         {/* Top Navigation */}
         <div className="p-8 lg:p-12 flex justify-between items-center">
           <button 
-            onClick={() => navigate(backTo)}
+            onClick={handleBack}
             className="w-12 h-12 flex items-center justify-center rounded-full hover:bg-surface-container-low transition-all active:scale-90 group"
           >
             <span className="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors">arrow_back</span>

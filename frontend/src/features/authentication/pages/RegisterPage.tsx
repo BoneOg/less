@@ -8,6 +8,8 @@ import AuthLayout from '../components/AuthLayout'
 import PasswordStrength from '../components/PasswordStrength'
 import AuthModal from '../components/AuthModal'
 
+import AuthBranding from '../components/AuthBranding'
+
 export default function RegisterPage() {
   const navigate = useNavigate()
   const { register } = useAuth()
@@ -44,32 +46,8 @@ export default function RegisterPage() {
     }
   }
 
-  const leftContent = (
-    <>
-      <div className="absolute inset-0 w-full h-full bg-[#E5E7E1]/30 flex items-center justify-center p-20">
-        <div className="bg-[#F2F1EC] w-full max-w-lg aspect-square rounded-[4rem] flex items-center justify-center shadow-inner relative overflow-hidden animate-in fade-in zoom-in duration-1000 delay-200">
-           <div className="text-[120px] font-black text-primary/20 leading-none tracking-tighter select-none">less.</div>
-           <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent"></div>
-        </div>
-      </div>
-      <div className="relative z-10 flex flex-col justify-between w-full h-full p-16">
-        <div className="space-y-6 animate-in fade-in slide-in-from-left-8 duration-1000">
-          <div className="text-2xl font-bold lowercase text-on-surface tracking-tighter">
-            less.
-          </div>
-          <p className="text-on-surface-variant font-medium max-w-xs leading-relaxed">
-            The path to essentialism begins with a single, intentional step. Simplify your workflow.
-          </p>
-        </div>
-        <div className="text-sm text-on-surface-variant opacity-60 font-medium animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-500">
-          @2026 less.
-        </div>
-      </div>
-    </>
-  )
-
   return (
-    <AuthLayout leftContent={leftContent} backTo="/login">
+    <AuthLayout leftContent={<AuthBranding variant="minimal" description="The path to essentialism begins with a single, intentional step. Simplify your workflow." />} backTo="/login">
       <AuthModal 
         isOpen={showSuccessModal}
         type="success"
