@@ -6,10 +6,8 @@ from django.contrib.auth import get_user_model
 from .serializers import (
     UserSerializer,
     CustomTokenObtainPairSerializer,
-    IngredientSerializer,
-    MenuItemSerializer,
+    ChangePasswordSerializer
 )
-from .models import Ingredient, MenuItem
 
 User = get_user_model()
 
@@ -24,7 +22,7 @@ class RegisterView(generics.CreateAPIView):
     serializer_class = UserSerializer
 
 
-class UserDetailView(generics.RetrieveAPIView):
+class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
     permission_classes = (IsAuthenticated,)
     serializer_class = UserSerializer
@@ -33,31 +31,24 @@ class UserDetailView(generics.RetrieveAPIView):
         return self.request.user
 
 
-class IngredientViewSet(viewsets.ModelViewSet):
-    """
-    Full CRUD for Ingredient.
-    GET/retrieve  → open (no token needed)
-    POST/PUT/PATCH/DELETE → requires Authorization: Bearer <token>
-    """
-    queryset = Ingredient.objects.all().order_by('-created_at')
-    serializer_class = IngredientSerializer
+class ChangePasswordView(generics.UpdateAPIView):
+    serializer_class = ChangePasswordSerializer
+    model = User
+    permission_classes = (IsAuthenticated,)
 
-    def get_permissions(self):
-        if self.action in ('list', 'retrieve'):
-            return [AllowAny()]
-        return [IsAuthenticated()]
+    def get_object(self):
+        return self.request.user
 
+    def update(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        serializer = self.get_serializer(data=request.data)
 
-class MenuItemViewSet(viewsets.ModelViewSet):
-    """
-    Full CRUD for MenuItem.
-    GET/retrieve  → open (no token needed)
-    POST/PUT/PATCH/DELETE → requires Authorization: Bearer <token>
-    """
-    queryset = MenuItem.objects.all().order_by('-created_at')
-    serializer_class = MenuItemSerializer
+        if serializer.is_valid():
+            if not self.object.check_password(serializer.data.get("current_password")):
+                return Response({"current_password": ["Wrong password."]}, status=status.HTTP_400_BAD_REQUEST)
+            
+            self.object.set_password(serializer.data.get("new_password"))
+            self.object.save()
+            return Response({"message": "Password updated successfully"}, status=status.HTTP_200_OK)
 
-    def get_permissions(self):
-        if self.action in ('list', 'retrieve'):
-            return [AllowAny()]
-        return [IsAuthenticated()]
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
