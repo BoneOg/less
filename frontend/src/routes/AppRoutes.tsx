@@ -15,6 +15,7 @@ export default function AppRoutes() {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/settings" element={<Dashboard />} />
         <Route path="/test" element={<TestPage />} />
       </Routes>
     </BrowserRouter>
